@@ -108,6 +108,10 @@ public class Case {
 
     @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true) 
     @JsonManagedReference
+    private List<Document> documents;
+
+    @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true) 
+    @JsonManagedReference
     private List<SecSource> secSources;
     
 }
