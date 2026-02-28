@@ -18,6 +18,5 @@ public interface DocumentRepo extends JpaRepository<Document, Long> {
 
     // Delete Methods
     public void deleteByCaseNumber(Long caseNumber);
-    public void deleteById(Long id);
     
 }
