@@ -36,11 +36,6 @@ public class DocumentService {
     }
 
     // FIND
-    public List<Document> getDocumentsByCaseId(Long caseId) {
-        getCaseOrThrow(caseId);
-        return documentRepo.findByCaseEntity_Id(caseId);
-    }
-
     public List<Document> getDocumentsByCaseNumber(Integer caseNumber) {
         return documentRepo.findByCaseNumber(caseNumber);
     }
