@@ -4,9 +4,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 
+import lombok.*;
+
 
 @Entity
 @Table(name="docket")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Docket {
 
     @Id
@@ -30,51 +37,10 @@ public class Docket {
     @JsonBackReference
     private Case caseEntity;
 
-    public Docket() {}
-
     public Docket(Integer caseNumber, String court, String number, String link) {
         this.caseNumber = caseNumber;
         this.court = court;
         this.number = number;
-        this.link = link;
-    }
-
-
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public Integer getCaseNumber() {
-        return caseNumber;
-    }
-
-    public void setCaseNumber(Integer caseNumber) {
-        this.caseNumber = caseNumber;
-    }
-
-    public String getCourt() {
-        return court;
-    }
-
-    public void setCourt(String court) {
-        this.court = court;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
         this.link = link;
     }
 

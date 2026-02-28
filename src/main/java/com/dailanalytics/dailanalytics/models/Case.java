@@ -6,6 +6,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Getter
 @Setter
@@ -99,4 +101,13 @@ public class Case {
     private String keyword;
 
     private String jurisdictionTypeText;
+
+    @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Docket> dockets;
+
+    @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true) 
+    @JsonManagedReference
+    private List<SecSource> secSources;
+    
 }
