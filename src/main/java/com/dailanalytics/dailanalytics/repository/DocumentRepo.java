@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface DocumentRepo extends JpaRepository<Document, Long> {
 
-    // find all documents for a given Case (by case id)
-    List<Document> findByCaseEntity_Id(Long caseId);
 
     // or by caseNumber column
     List<Document> findByCaseNumber(Integer caseNumber);
@@ -20,6 +18,5 @@ public interface DocumentRepo extends JpaRepository<Document, Long> {
 
     // Delete Methods
     public void deleteByCaseNumber(Long caseNumber);
-    public void deleteById(Long id);
     
 }

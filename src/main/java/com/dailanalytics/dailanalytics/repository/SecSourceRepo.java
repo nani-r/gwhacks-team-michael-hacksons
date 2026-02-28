@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 @Repository
-public interface SecSource extends JpaRepository<SecSource, Long> {
+public interface SecSourceRepo extends JpaRepository<SecSourceRepo, Long> {
 
-    List<SecSource> findByCaseEntity(Case caseEntity);
+    List<SecSourceRepo> findByCaseEntity(Case caseEntity);
     void deleteByCaseEntityId(Long caseId);
-    List<SecSource> findByCaseNumber(Long caseNumber);
+    List<SecSourceRepo> findByCaseNumber(Long caseNumber);
 
 }

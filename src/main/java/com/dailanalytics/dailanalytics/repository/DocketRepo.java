@@ -9,8 +9,7 @@ import java.util.List;
 @Repository
 public interface DocketRepo extends JpaRepository<Docket, Long> {
 
-    List<Docket> findByCaseEntityId(Long caseId);
-    void deleteByCaseEntityId(Long caseId);
+
     List<Docket> findByCaseNumber(Long caseNumber);
 }
 
