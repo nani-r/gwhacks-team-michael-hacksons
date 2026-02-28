@@ -56,8 +56,16 @@ public class SecSourceService {
         secSourceRepo.deleteById(id);
     }
 
-    // DELETE (by caseNumber)
     public void deleteByCaseNumber(Integer caseNumber) {
         secSourceRepo.deleteByCaseNumber(caseNumber);
+    }
+
+    // helpers for controllers
+    public List<SecSource> getAllSecSources() {
+        return secSourceRepo.findAll();
+    }
+
+    public SecSource saveSecSource(SecSource secSource) {
+        return secSourceRepo.save(secSource);
     }
 }

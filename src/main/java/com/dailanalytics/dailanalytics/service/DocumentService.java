@@ -71,4 +71,13 @@ public class DocumentService {
     public void deleteDocumentsByCaseNumber(Integer caseNumber) {
         documentRepo.deleteByCaseNumber(Long.valueOf(caseNumber));
     }
+
+    // additional helpers used by controllers
+    public List<Document> getAllDocuments() {
+        return documentRepo.findAll();
+    }
+
+    public Document saveDocument(Document document) {
+        return documentRepo.save(document);
+    }
 }
