@@ -1,15 +1,15 @@
 package com.dailanalytics.dailanalytics.repository;
 
-import org.springframework.stereotype.Repository;
-import com.dailanalytics.dailanalytics.models.Case;
+import com.dailanalytics.dailanalytics.models.SecSource;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface SecSourceRepo extends JpaRepository<SecSourceRepo, Long> {
+public interface SecSourceRepo extends JpaRepository<SecSource, Long> {
 
-    List<SecSourceRepo> findByCaseNumber(Long caseNumber);
-    public void deleteByCaseNumber(Long caseNumber);
+    List<SecSource> findByCaseNumber(Integer caseNumber);
 
+    void deleteByCaseNumber(Integer caseNumber);
 }

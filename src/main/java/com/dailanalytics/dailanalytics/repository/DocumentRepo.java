@@ -11,8 +11,6 @@ import java.util.List;
 public interface DocumentRepo extends JpaRepository<Document, Long> {
 
     // or by caseNumber column
-    List<Document> findByCaseEntity_Id(Long caseId);
-
     List<Document> findByCaseNumber(Integer caseNumber);
 
     List<Document> findByDate(LocalDate date);
