@@ -17,6 +17,9 @@ public class SecSource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "case_number", nullable = false)
+    private Integer caseNumber;
+    
     @Column(name = "secondary_source_link", length = 1000, nullable = false)
     private String secondarySourceLink;
 
