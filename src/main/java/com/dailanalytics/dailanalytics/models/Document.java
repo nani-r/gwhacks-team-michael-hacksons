@@ -3,7 +3,7 @@ package com.dailanalytics.dailanalytics.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -24,7 +24,7 @@ public class Document {
     @Column(length = 64000)
     private String court;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(length = 64000)
     private String link;
