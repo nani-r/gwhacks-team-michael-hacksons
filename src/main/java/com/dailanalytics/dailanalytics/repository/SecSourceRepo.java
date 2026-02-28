@@ -9,8 +9,7 @@ import java.util.List;
 @Repository
 public interface SecSourceRepo extends JpaRepository<SecSourceRepo, Long> {
 
-    List<SecSourceRepo> findByCaseEntity(Case caseEntity);
-    void deleteByCaseEntityId(Long caseId);
     List<SecSourceRepo> findByCaseNumber(Long caseNumber);
+    public void deleteByCaseNumber(Long caseNumber);
 
 }
