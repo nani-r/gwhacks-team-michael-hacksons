@@ -31,4 +31,9 @@ public class Document {
 
     @Column(length = 64000)
     private String citeOrReference;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "case_id", nullable = false)
+    @JsonBackReference
+    private Case caseEntity;
 }

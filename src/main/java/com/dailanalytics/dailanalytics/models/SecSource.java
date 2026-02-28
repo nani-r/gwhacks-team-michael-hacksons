@@ -19,7 +19,7 @@ public class SecSource {
 
     @Column(name = "case_number", nullable = false)
     private Integer caseNumber;
-    
+
     @Column(name = "secondary_source_link", length = 1000, nullable = false)
     private String secondarySourceLink;
 
@@ -30,29 +30,5 @@ public class SecSource {
     @JoinColumn(name = "case_id", nullable = false)
     @JsonBackReference
     private Case caseEntity;
-
-    public SecSource(String link, String title, Case caseEntity) {
-        this.secondarySourceLink = link;
-        this.secondarySourceTitle = title;
-        this.caseEntity = caseEntity;
-    }
-
-    // Getters & Setters
-    public Long getId() { return id; }
-
-    public String getSecondarySourceLink() { return secondarySourceLink; }
-    public void setSecondarySourceLink(String secondarySourceLink) {
-        this.secondarySourceLink = secondarySourceLink;
-    }
-
-    public String getSecondarySourceTitle() { return secondarySourceTitle; }
-    public void setSecondarySourceTitle(String secondarySourceTitle) {
-        this.secondarySourceTitle = secondarySourceTitle;
-    }
-
-    public Case getCaseEntity() { return caseEntity; }
-    public void setCaseEntity(Case caseEntity) {
-        this.caseEntity = caseEntity;
-    }
 }
 
