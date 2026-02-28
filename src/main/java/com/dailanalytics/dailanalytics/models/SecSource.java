@@ -1,10 +1,16 @@
 package com.dailanalytics.dailanalytics.models;
+import lombok.*;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "secondary_source")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SecSource {
 
     @Id
@@ -21,8 +27,6 @@ public class SecSource {
     @JoinColumn(name = "case_id", nullable = false)
     @JsonBackReference
     private Case caseEntity;
-
-    public SecSource() {}
 
     public SecSource(String link, String title, Case caseEntity) {
         this.secondarySourceLink = link;
