@@ -37,11 +37,11 @@ public class DocketService {
 
     // FIND
 
-    public List<Docket> getDocumentsByCaseNumber(Integer caseNumber) {
+    public List<Docket> getDocketsByCaseNumber(Integer caseNumber) {
         return docketRepo.findByCaseNumber(caseNumber);
     }
 
-    public List<Docket> getDocumentsByCourt(String court) {
+    public List<Docket> getDocketsByCourt(String court) {
         return docketRepo.findByCourt(court);
     }
 
@@ -67,4 +67,13 @@ public class DocketService {
     public void deleteDocumentsByCaseNumber(Integer caseNumber) {
         docketRepo.deleteByCaseNumber(caseNumber);
     }
+
+    public List<Docket> getAllDockets() {
+        return docketRepo.findAll();
+    }
+
+    public Docket saveDocket(Docket docket) {
+        return docketRepo.save(docket);
+    }
 }
+
