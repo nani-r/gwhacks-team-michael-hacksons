@@ -64,7 +64,7 @@ public class DocketService {
         docketRepo.deleteById(docketId);
     }
 
-    public void deleteDocumentsByCaseNumber(Integer caseNumber) {
+    public void deleteDocketsByCaseNumber(Integer caseNumber) {
         docketRepo.deleteByCaseNumber(caseNumber);
     }
 
