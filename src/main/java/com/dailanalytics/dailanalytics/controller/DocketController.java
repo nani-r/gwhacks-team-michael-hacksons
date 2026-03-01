@@ -44,7 +44,7 @@ public class DocketController {
     // CREATE docket under caseNumber
     @PostMapping("/case/{caseNumber}")
     public ResponseEntity<Docket> createDocket(
-            @PathVariable Long caseNumber,
+            @PathVariable Integer caseNumber,
             @RequestBody Docket docket) {
 
         Docket created = docketService.addDocketToCase(caseNumber, docket);
