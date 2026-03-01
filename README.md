@@ -8,6 +8,60 @@ Requirements:
 - Java 11+ (or OpenJDK)
 - Maven (or use the included `mvnw` / `mvnw.cmd`)
 
+## Database Setup
+
+The application automatically creates database tables on startup using Hibernate/JPA.
+
+**Step 1: Install PostgreSQL**
+- Download: https://www.postgresql.org/download/
+- Install and remember your superuser password
+
+**Step 2: Create a database and user**
+
+Open PostgreSQL command line (psql) and run:
+
+```sql
+CREATE USER dailytics WITH PASSWORD 'your_password_here';
+CREATE DATABASE dail_litigation OWNER dailytics;
+```
+
+Replace `'your_password_here'` with a secure password.
+
+**Step 3: Configure the application**
+
+Create or edit `src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/dail_litigation
+spring.datasource.username=dailytics
+spring.datasource.password=your_password_here
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=false
+```
+
+- Change `dail_litigation`, `dailytics`, and password to match Step 2.
+- `ddl-auto=create-drop` auto-creates tables and drops them on shutdown (for development).
+- Use `ddl-auto=update` for production (tables persist).
+
+**Step 4: Add PostgreSQL dependency**
+
+Ensure `pom.xml` includes:
+
+```xml
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+**Step 4: Build and run**
+
+(PostgreSQL dependency is already in `pom.xml`—no need to add it.)
+
 Build and run (Windows):
 
 ```powershell
