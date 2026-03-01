@@ -25,10 +25,21 @@ public class SecSourceService {
     }
 
     // ADD
-    public SecSource addSecSource(Integer caseNumber, SecSource secSource) {
-        Case caseEntity = getCaseByCaseNumberOrThrow(caseNumber);
-        secSource.setCaseNumber(caseNumber);
+    public SecSource addSecSource(SecSource secSource) {
+
+        secSource.setId(null); // force insert
+
+        Integer caseNumber = secSource.getCaseNumber();
+
+        if (caseNumber == null) {
+            throw new RuntimeException("Case number is required");
+        }
+
+        Case caseEntity = caseRepo.findByRecordNumber(caseNumber)
+                .orElseThrow(() -> new RuntimeException("Case not found"));
+
         secSource.setCaseEntity(caseEntity);
+
         return secSourceRepo.save(secSource);
     }
 
@@ -45,6 +56,7 @@ public class SecSourceService {
     // UPDATE
     public SecSource updateSecSource(Long id, SecSource updated) {
         SecSource existing = getSecSource(id);
+        updated.setId(null);
         existing.setSecondarySourceLink(updated.getSecondarySourceLink());
         existing.setSecondarySourceTitle(updated.getSecondarySourceTitle());
 

@@ -28,7 +28,7 @@ public class DocumentController {
         return documentService.getAllDocuments();
     }
 
-    // get by caseNo
+    // get by id
     @GetMapping("/{caseNo}")
     public ResponseEntity<Optional<List<Document>>> getDocumentsByCaseNo(@PathVariable Integer caseNo) {
         Optional<List<Document>> doc = Optional.of(documentService.getDocumentsByCaseNumber(caseNo));
@@ -50,18 +50,7 @@ public class DocumentController {
     // create
     @PostMapping
     public ResponseEntity<Document> createDocument(@RequestBody Document document) {
-        if (document.getCaseEntity() == null || document.getCaseEntity().getId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Case> caseEntity = Optional.of(caseService.getCaseOrThrow(document.getCaseEntity().getId()));
-        if (caseEntity.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        document.setCaseEntity(caseEntity.get());
-        if (caseEntity.get().getRecordNumber() != null) {
-            document.setCaseNumber(caseEntity.get().getRecordNumber());
-        }
-        Document saved = documentService.saveDocument(document);
+        Document saved = documentService.addDocumentToCase(document);
         return ResponseEntity.ok(saved);
     }
 

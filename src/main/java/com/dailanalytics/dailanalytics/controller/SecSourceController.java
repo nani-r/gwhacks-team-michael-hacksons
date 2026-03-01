@@ -3,6 +3,9 @@ package com.dailanalytics.dailanalytics.controller;
 import com.dailanalytics.dailanalytics.models.SecSource;
 import com.dailanalytics.dailanalytics.models.Case;
 import com.dailanalytics.dailanalytics.service.SecSourceService;
+
+import jakarta.transaction.Transactional;
+
 import com.dailanalytics.dailanalytics.service.CaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,22 +41,12 @@ public class SecSourceController {
     // create
     @PostMapping
     public ResponseEntity<SecSource> createSecSource(@RequestBody SecSource secSource) {
-        if (secSource.getCaseEntity() == null || secSource.getCaseEntity().getId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Case> caseEntity = Optional.of(caseService.getCaseOrThrow(secSource.getCaseEntity().getId()));
-        if (caseEntity.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        secSource.setCaseEntity(caseEntity.get());
-        if (caseEntity.get().getRecordNumber() != null) {
-            secSource.setCaseNumber(caseEntity.get().getRecordNumber());
-        }
-        SecSource saved = secSourceService.saveSecSource(secSource);
+        SecSource saved = secSourceService.addSecSource(secSource);
         return ResponseEntity.ok(saved);
     }
 
     // update
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<SecSource> updateSecSource(@PathVariable Long id, @RequestBody SecSource updated) {
         Optional<SecSource> existing = Optional.of(secSourceService.getSecSource(id));
@@ -77,15 +70,16 @@ public class SecSourceController {
     }
 
     // delete
-    // @DeleteMapping("/{caseNo}")
-    // public ResponseEntity<Void> deleteSecSource(@PathVariable Integer caseNo) {
-    //     Optional<List<SecSource>> existing = Optional.of(secSourceService.getSecSourcesByCaseNumber(caseNo));
-    //     if (existing.isPresent()) {
-    //         secSourceService.deleteSecSource(caseNo);
-    //         return ResponseEntity.noContent().build();
-    //     } else {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
+    @Transactional
+    @DeleteMapping("/{caseNo}")
+    public ResponseEntity<Void> deleteSecSource(@PathVariable Integer caseNo) {
+        Optional<List<SecSource>> existing = Optional.of(secSourceService.getSecSourcesByCaseNumber(caseNo));
+        if (existing.isPresent()) {
+            secSourceService.deleteSecSource(caseNo);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

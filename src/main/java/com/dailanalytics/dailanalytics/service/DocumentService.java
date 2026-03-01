@@ -25,13 +25,19 @@ public class DocumentService {
                 .orElseThrow(() -> new RuntimeException("Case not found: " + caseId));
     }
 
-    // CREATE
-    public Document addDocumentToCase(Long caseId, Document document) {
-        Case caseEntity = getCaseOrThrow(caseId);
-        document.setCaseEntity(caseEntity);
-        if (caseEntity.getRecordNumber() != null) {
-            document.setCaseNumber(caseEntity.getRecordNumber());
+    public Document addDocumentToCase(Document document) {
+
+        Integer caseNumber = document.getCaseNumber();
+        
+        document.setId(null);
+
+        if (caseNumber != null) {
+            Case caseEntity = caseRepo.findByRecordNumber(caseNumber)
+                    .orElseThrow(() -> new RuntimeException("Case not found"));
+
+            document.setCaseEntity(caseEntity);
         }
+
         return documentRepo.save(document);
     }
 
