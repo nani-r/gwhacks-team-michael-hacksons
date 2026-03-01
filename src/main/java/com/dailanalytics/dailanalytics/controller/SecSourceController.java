@@ -77,15 +77,15 @@ public class SecSourceController {
     }
 
     // delete
-    @DeleteMapping("/{caseNo}")
-    public ResponseEntity<Void> deleteSecSource(@PathVariable Integer caseNo) {
-        Optional<List<SecSource>> existing = Optional.of(secSourceService.getSecSourcesByCaseNumber(caseNo));
-        if (existing.isPresent()) {
-            secSourceService.deleteSecSource(caseNo);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    // @DeleteMapping("/{caseNo}")
+    // public ResponseEntity<Void> deleteSecSource(@PathVariable Integer caseNo) {
+    //     Optional<List<SecSource>> existing = Optional.of(secSourceService.getSecSourcesByCaseNumber(caseNo));
+    //     if (existing.isPresent()) {
+    //         secSourceService.deleteSecSource(caseNo);
+    //         return ResponseEntity.noContent().build();
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 }
 
