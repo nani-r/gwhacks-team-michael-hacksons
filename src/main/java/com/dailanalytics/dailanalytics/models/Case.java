@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "cases")
 public class Case {
 
     @Id
@@ -97,7 +98,7 @@ public class Case {
 
     private String mostRecentActivity;
 
-    private LocalDateTime mostRecentActivityDate;
+    private LocalDate mostRecentActivityDate;
 
     private String keyword;
 

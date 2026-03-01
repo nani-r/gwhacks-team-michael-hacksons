@@ -52,8 +52,8 @@ public class SecSourceService {
     }
 
     // DELETE (by id)
-    public void deleteSecSource(Long id) {
-        secSourceRepo.deleteById(id);
+    public void deleteSecSource(Integer caseNo) {
+        secSourceRepo.deleteByCaseNumber(caseNo);
     }
 
     public void deleteByCaseNumber(Integer caseNumber) {

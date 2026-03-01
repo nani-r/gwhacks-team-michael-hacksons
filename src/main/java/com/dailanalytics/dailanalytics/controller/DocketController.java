@@ -3,6 +3,9 @@ package com.dailanalytics.dailanalytics.controller;
 import com.dailanalytics.dailanalytics.models.Docket;
 import com.dailanalytics.dailanalytics.models.Case;
 import com.dailanalytics.dailanalytics.service.DocketService;
+
+import jakarta.transaction.Transactional;
+
 import com.dailanalytics.dailanalytics.service.CaseService;
 
 import org.springframework.http.HttpStatus;
@@ -49,6 +52,7 @@ public class DocketController {
     }
 
     // Update an existing docket
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<Docket> updateDocket(@PathVariable Long id, @RequestBody Docket updatedDocket) {
         Optional<Docket> existing = Optional.of(docketService.getDocket(id));
@@ -73,6 +77,7 @@ public class DocketController {
     }
 
     // Delete a docket
+    @Transactional
     @DeleteMapping("/{caseNo}")
     public ResponseEntity<Void> deleteDocketByCaseNo(@PathVariable Integer caseNo) {
         Optional<List<Docket>> existing = Optional.of(docketService.getDocketsByCaseNumber(caseNo));

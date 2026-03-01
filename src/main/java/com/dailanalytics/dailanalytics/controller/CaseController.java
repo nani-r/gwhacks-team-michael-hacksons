@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dailanalytics.dailanalytics.models.Case;
 import com.dailanalytics.dailanalytics.service.CaseService;
 
+import jakarta.transaction.Transactional;
+
 @Controller
 @RequestMapping("/api/cases")
 public class CaseController {
@@ -51,6 +53,7 @@ public class CaseController {
     }
 
     // UPDATE
+    @Transactional
     @PutMapping("/{recordNo}")
     public ResponseEntity<Case> updateCase(@PathVariable Integer recordNo,
                                            @RequestBody Case updated) {
@@ -59,6 +62,7 @@ public class CaseController {
     }
 
     // DELETE
+    @Transactional
     @DeleteMapping("/{recordNo}")
     public ResponseEntity<Void> deleteCase(@PathVariable Integer recordNo) {
         caseService.deleteCase(recordNo);

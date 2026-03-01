@@ -20,14 +20,15 @@ public class DocketService {
         this.caseRepo = caseRepo;
     }
 
-    private Case getCaseOrThrow(Long caseId) {
-        return caseRepo.findById(caseId)
-                .orElseThrow(() -> new RuntimeException("Case not found: " + caseId));
+    private Case getCaseOrThrow(Integer caseNumber) {
+        return caseRepo.findByRecordNumber(caseNumber)
+                .orElseThrow(() -> new RuntimeException("Case not found: " + caseNumber));
     }
 
     // CREATE
-    public Docket addDocketToCase(Long caseId, Docket docket) {
-        Case caseEntity = getCaseOrThrow(caseId);
+    public Docket addDocketToCase(Integer caseNumber, Docket docket) {
+        Case caseEntity = getCaseOrThrow(caseNumber);
+        docket.setId(null);
         docket.setCaseEntity(caseEntity);
         if (caseEntity.getRecordNumber() != null) {
             docket.setCaseNumber(caseEntity.getRecordNumber());
@@ -64,7 +65,7 @@ public class DocketService {
         docketRepo.deleteById(docketId);
     }
 
-    public void deleteDocumentsByCaseNumber(Integer caseNumber) {
+    public void deleteDocketsByCaseNumber(Integer caseNumber) {
         docketRepo.deleteByCaseNumber(caseNumber);
     }
 

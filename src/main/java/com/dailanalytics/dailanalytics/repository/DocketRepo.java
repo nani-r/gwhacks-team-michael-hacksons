@@ -12,5 +12,6 @@ public interface DocketRepo extends JpaRepository<Docket, Long> {
     List<Docket> findByCaseNumber(Integer caseNumber);
     List<Docket> findByCourt(String court);
     public void deleteByCaseNumber(Integer caseNumber);
+    
 }
 
