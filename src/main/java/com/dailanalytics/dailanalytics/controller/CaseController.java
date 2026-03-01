@@ -3,6 +3,8 @@ package com.dailanalytics.dailanalytics.controller;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,59 +16,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dailanalytics.dailanalytics.models.Case;
-import com.dailanalytics.dailanalytics.models.Docket;
-import com.dailanalytics.dailanalytics.repository.CaseRepo;
 import com.dailanalytics.dailanalytics.service.CaseService;
 
 @Controller
-@RequestMapping("/api/case")
+@RequestMapping("/api/cases")
 public class CaseController {
 
     private final CaseService caseService;
-    private final CaseRepo caseRepo;
 
-    public CaseController(CaseService caseService, CaseRepo caseRepo) {
+    public CaseController(CaseService caseService) {
         this.caseService = caseService;
-        this.caseRepo = caseRepo;
     }
 
     // Get all cases
     @GetMapping
-    public List<Case> getAllCases() {
-        return caseService.getAllCases();
+    public ResponseEntity<List<Case>> getAllCases() {
+        List<Case> cases = caseService.getAllCases();
+        return ResponseEntity.ok(cases);
     }
 
     // Get Specific Case
     @GetMapping("/{recordNo}")
-    public Case getCase(@PathVariable Integer recordNo) {
-        return caseService.getCaseByRecordNo(recordNo);
+    public ResponseEntity<Case> getCase(@PathVariable Integer recordNo) {
+        Case caseFound = caseService.getCaseByRecordNo(recordNo);
+        return ResponseEntity.ok(caseFound);
     }
 
     // CREATE
 
     @PostMapping
-    public Case createCase(@RequestBody Case newCase) {
-        return caseService.addCase(newCase);
+    public ResponseEntity<Case> createCase(@RequestBody Case newCase) {
+        Case created = caseService.addCase(newCase);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     // UPDATE
-
     @PutMapping("/{recordNo}")
-    public Case updateCase(@PathVariable Integer recordNo, @RequestBody Case updated) {
-        return caseService.updateCase(recordNo, updated);
+    public ResponseEntity<Case> updateCase(@PathVariable Integer recordNo,
+                                           @RequestBody Case updated) {
+        Case updatedCase = caseService.updateCase(recordNo, updated);
+        return ResponseEntity.ok(updatedCase);
     }
 
-    // DELETE 
-
+    // DELETE
     @DeleteMapping("/{recordNo}")
-    public void deleteCase(@PathVariable Integer recordNo) {
+    public ResponseEntity<Void> deleteCase(@PathVariable Integer recordNo) {
         caseService.deleteCase(recordNo);
+        return ResponseEntity.noContent().build();
     }
-    
-
-
-
-    
 
 
     
