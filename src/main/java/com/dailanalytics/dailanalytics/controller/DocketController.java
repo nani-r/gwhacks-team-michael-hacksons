@@ -4,6 +4,8 @@ import com.dailanalytics.dailanalytics.models.Docket;
 import com.dailanalytics.dailanalytics.models.Case;
 import com.dailanalytics.dailanalytics.service.DocketService;
 import com.dailanalytics.dailanalytics.service.CaseService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,43 +30,22 @@ public class DocketController {
         return docketService.getAllDockets();
     }
 
-    // Get a docket by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Docket> getDocketById(@PathVariable Long id) {
-        Optional<Docket> docket = Optional.of(docketService.getDocket(id));
-        return docket.map(ResponseEntity::ok)
-                     .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/case/{caseNumber}")
+    public ResponseEntity<List<Docket>> getDocketsByCase(
+            @PathVariable Integer caseNumber) {
+
+        List<Docket> dockets = docketService.getDocketsByCaseNumber(caseNumber);
+        return ResponseEntity.ok(dockets);
     }
 
-    // Get all dockets for a specific case
-    @GetMapping("/case/{caseId}")
-    public ResponseEntity<List<Docket>> getDocketsByCase(@PathVariable Long caseId) {
-        Optional<Case> caseEntity = Optional.of(caseService.getCaseOrThrow(caseId));
-        if (caseEntity.isPresent()) {
-            Integer caseIdAsInteger = Math.toIntExact(caseId);
-            List<Docket> dockets = docketService.getDocketsByCaseNumber(caseIdAsInteger);
-            return ResponseEntity.ok(dockets);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    // CREATE docket under caseNumber
+    @PostMapping("/case/{caseNumber}")
+    public ResponseEntity<Docket> createDocket(
+            @PathVariable Integer caseNumber,
+            @RequestBody Docket docket) {
 
-    // Create a new docket
-    @PostMapping
-    public ResponseEntity<Docket> createDocket(@RequestBody Docket docket) {
-        // Make sure the case exists
-        if (docket.getCaseEntity() == null || docket.getCaseEntity().getId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Optional<Case> caseEntity = Optional.of(caseService.getCaseOrThrow(docket.getCaseEntity().getId()));
-        if (caseEntity.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        docket.setCaseEntity(caseEntity.get()); // ensure managed entity
-        Docket savedDocket = docketService.saveDocket(docket);
-        return ResponseEntity.ok(savedDocket);
+        Docket created = docketService.addDocketToCase(caseNumber, docket);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     // Update an existing docket
@@ -92,14 +73,17 @@ public class DocketController {
     }
 
     // Delete a docket
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDocket(@PathVariable Long id) {
-        Optional<Docket> existing = Optional.of(docketService.getDocket(id));
+    @DeleteMapping("/{caseNo}")
+    public ResponseEntity<Void> deleteDocketByCaseNo(@PathVariable Integer caseNo) {
+        Optional<List<Docket>> existing = Optional.of(docketService.getDocketsByCaseNumber(caseNo));
         if (existing.isPresent()) {
-            docketService.deleteDocket(id);
+            docketService.deleteDocketsByCaseNumber(caseNo);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+    
+
+
 }
