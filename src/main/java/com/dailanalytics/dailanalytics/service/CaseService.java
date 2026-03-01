@@ -2,11 +2,13 @@ package com.dailanalytics.dailanalytics.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.dailanalytics.dailanalytics.models.Case;
+import com.dailanalytics.dailanalytics.models.Docket;
 import com.dailanalytics.dailanalytics.repository.CaseRepo;
 
 @Service
@@ -32,12 +34,12 @@ public class CaseService {
     }
 
     public Case getCaseByRecordNo(Integer recordNo) {
-        return caseRepo.findbyRecordNumber(recordNo) 
+        return caseRepo.findByRecordNumber(recordNo) 
             .orElseThrow(() ->   new RuntimeException("Case not found with record number: " + recordNo));
     }
 
     public Case getCaseBySnug(String snug) {
-        return caseRepo.findbyCaseSnug(snug)
+        return caseRepo.findByCaseSnug(snug)
             .orElseThrow(() -> new RuntimeException("Case not found with snug: " + snug));
     }
 
@@ -45,9 +47,9 @@ public class CaseService {
 
 
     // UPDATE
-    public Case updateCase(Long caseId, Case updatedCase) {
+    public Case updateCase(Integer recordNo, Case updatedCase) {
 
-        Case existing = caseRepo.findById(caseId)
+        Case existing = caseRepo.findByRecordNumber(recordNo)
                 .orElseThrow(() -> new RuntimeException("Case not found"));
 
         existing.setCaseSnug(updatedCase.getCaseSnug());
@@ -102,14 +104,19 @@ public class CaseService {
     }
 
     // DELETE
-    public void deleteCase(Long caseId) {
-        caseRepo.deleteById(caseId);
+    public void deleteCase(Integer recordNo) {
+        caseRepo.deleteByRecordNumber(recordNo);
     }
 
     public void deleteCaseByRecordNo(Integer caseNumber) {
         caseRepo.deleteByRecordNumber(caseNumber);
     }
 
+    // sorting and filtering
+
+    public List<Case> getAllCases() {
+        return caseRepo.findAll();
+    }   
 
     
 

@@ -9,11 +9,10 @@ public interface CaseRepo extends JpaRepository<Case, Long> {
 
 
     // find methods
-    public Optional<Case> findbyRecordNumber(Integer no);
-    public Optional<Case> findbyCaseSnug(String snug);
+    public Optional<Case> findByRecordNumber(Integer no);
+    public Optional<Case> findByCaseSnug(String snug);
 
     // delete methods
-    public void deleteById(Long id);
     public void deleteByRecordNumber(Integer no);
 
     

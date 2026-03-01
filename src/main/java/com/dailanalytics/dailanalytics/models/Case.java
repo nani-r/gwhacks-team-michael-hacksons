@@ -3,6 +3,7 @@ package com.dailanalytics.dailanalytics.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class Case {
 
     private String jurisdictionFiled;
 
-    private LocalDateTime dateActionFiled;
+    private LocalDate dateActionFiled;
 
     private String currentJurisdiction;
 
@@ -80,7 +81,7 @@ public class Case {
 
     private String statusDisposition;
 
-    private LocalDateTime dateAdded;
+    private LocalDate dateAdded;
 
     private LocalDateTime lastUpdate;
 

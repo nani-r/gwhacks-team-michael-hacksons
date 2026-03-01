@@ -20,7 +20,7 @@ public class SecSourceService {
     }
 
     private Case getCaseByCaseNumberOrThrow(Integer caseNumber) {
-        return caseRepo.findbyRecordNumber(caseNumber)
+        return caseRepo.findByRecordNumber(caseNumber)
                 .orElseThrow(() -> new RuntimeException("Case not found for caseNumber: " + caseNumber));
     }
 
