@@ -29,17 +29,10 @@ public class SecSourceController {
     }
 
     // get by id
-    @GetMapping("/{id}")
-    public ResponseEntity<SecSource> getById(@PathVariable Long id) {
-        Optional<SecSource> src = Optional.of(secSourceService.getSecSource(id));
-        return src.map(ResponseEntity::ok)
-                  .orElse(ResponseEntity.notFound().build());
-    }
-
-    // get by case number
-    @GetMapping("/case/{caseNumber}")
-    public List<SecSource> getByCaseNumber(@PathVariable Integer caseNumber) {
-        return secSourceService.getSecSourcesByCaseNumber(caseNumber);
+    @GetMapping("/{caseNo}")
+    public ResponseEntity<Optional<List<SecSource>>> getByCaseNo(@PathVariable Integer caseNo) {
+        Optional<List<SecSource>> src = Optional.of(secSourceService.getSecSourcesByCaseNumber(caseNo));
+        return ResponseEntity.ok(src);
     }
 
     // create
@@ -84,11 +77,11 @@ public class SecSourceController {
     }
 
     // delete
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSecSource(@PathVariable Long id) {
-        Optional<SecSource> existing = Optional.of(secSourceService.getSecSource(id));
+    @DeleteMapping("/{caseNo}")
+    public ResponseEntity<Void> deleteSecSource(@PathVariable Integer caseNo) {
+        Optional<List<SecSource>> existing = Optional.of(secSourceService.getSecSourcesByCaseNumber(caseNo));
         if (existing.isPresent()) {
-            secSourceService.deleteSecSource(id);
+            secSourceService.deleteSecSource(caseNo);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
