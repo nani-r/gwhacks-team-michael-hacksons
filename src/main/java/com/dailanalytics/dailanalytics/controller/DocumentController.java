@@ -28,25 +28,11 @@ public class DocumentController {
         return documentService.getAllDocuments();
     }
 
-    // get by id
-    @GetMapping("/{id}")
-    public ResponseEntity<Document> getDocumentById(@PathVariable Long id) {
-        Optional<Document> doc = Optional.of(documentService.getDocument(id));
-        return doc.map(ResponseEntity::ok)
-                  .orElse(ResponseEntity.notFound().build());
-    }
-
-    // get all docs for a given case id
-    @GetMapping("/case/{caseId}")
-    public ResponseEntity<List<Document>> getDocumentsByCase(@PathVariable Long caseId) {
-        Optional<Case> caseEntity = Optional.of(caseService.getCaseOrThrow(caseId));
-        if (caseEntity.isPresent()) {
-            Integer caseNumber = Math.toIntExact(caseId);
-            List<Document> documents = documentService.getDocumentsByCaseNumber(caseNumber);
-            return ResponseEntity.ok(documents);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    // get by caseNo
+    @GetMapping("/{caseNo}")
+    public ResponseEntity<Optional<List<Document>>> getDocumentsByCaseNo(@PathVariable Integer caseNo) {
+        Optional<List<Document>> doc = Optional.of(documentService.getDocumentsByCaseNumber(caseNo));
+        return ResponseEntity.ok(doc);
     }
 
     // additional filters (date and court)
@@ -104,10 +90,10 @@ public class DocumentController {
 
     // delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDocument(@PathVariable Long id) {
-        Optional<Document> existing = Optional.of(documentService.getDocument(id));
+    public ResponseEntity<Void> deleteDocument(@PathVariable Integer caseNo) {
+        Optional<List<Document>> existing = Optional.of(documentService.getDocumentsByCaseNumber(caseNo));
         if (existing.isPresent()) {
-            documentService.deleteDocument(id);
+            documentService.deleteDocumentsByCaseNumber(caseNo);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

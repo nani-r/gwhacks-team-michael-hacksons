@@ -74,7 +74,7 @@ public class DocketController {
 
     // Delete a docket
     @DeleteMapping("/{caseNo}")
-    public ResponseEntity<Void> deleteDocketById(@PathVariable Integer caseNo) {
+    public ResponseEntity<Void> deleteDocketByCaseNo(@PathVariable Integer caseNo) {
         Optional<List<Docket>> existing = Optional.of(docketService.getDocketsByCaseNumber(caseNo));
         if (existing.isPresent()) {
             docketService.deleteDocketsByCaseNumber(caseNo);
